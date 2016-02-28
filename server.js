@@ -31,10 +31,10 @@ app.use(morgan('dev'));
 app.get('/setup', function(req, res) {
 
 	// create a sample user
-	var nick = new User({ 
-		name: 'Nick Cerminara', 
-		password: 'password',
-		admin: true 
+	var nick = new User({
+		name: 'ramiro',
+		password: 'ramiro',
+		admin: true
 	});
 	nick.save(function(err) {
 		if (err) throw err;
@@ -52,7 +52,7 @@ app.get('/', function(req, res) {
 // ---------------------------------------------------------
 // get an instance of the router for api routes
 // ---------------------------------------------------------
-var apiRoutes = express.Router(); 
+var apiRoutes = express.Router();
 
 // ---------------------------------------------------------
 // authentication (no middleware necessary since this isnt authenticated)
@@ -87,7 +87,7 @@ apiRoutes.post('/authenticate', function(req, res) {
 					message: 'Enjoy your token!',
 					token: token
 				});
-			}		
+			}
 
 		}
 
@@ -106,12 +106,12 @@ apiRoutes.use(function(req, res, next) {
 	if (token) {
 
 		// verifies secret and checks exp
-		jwt.verify(token, app.get('superSecret'), function(err, decoded) {			
+		jwt.verify(token, app.get('superSecret'), function(err, decoded) {
 			if (err) {
-				return res.json({ success: false, message: 'Failed to authenticate token.' });		
+				return res.json({ success: false, message: 'Failed to authenticate token.' });
 			} else {
 				// if everything is good, save to request for use in other routes
-				req.decoded = decoded;	
+				req.decoded = decoded;
 				next();
 			}
 		});
@@ -120,13 +120,13 @@ apiRoutes.use(function(req, res, next) {
 
 		// if there is no token
 		// return an error
-		return res.status(403).send({ 
-			success: false, 
+		return res.status(403).send({
+			success: false,
 			message: 'No token provided.'
 		});
-		
+
 	}
-	
+
 });
 
 // ---------------------------------------------------------
